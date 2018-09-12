@@ -21,7 +21,7 @@ module.exports = function (ctx) {
       // vueRouterMode: 'history',
       // vueCompiler: true,
       gzip: true,
-      analyze: true,
+      // analyze: true,
       extractCSS: true,
       extendWebpack(cfg) {
         cfg.module.rules.push({
@@ -35,7 +35,7 @@ module.exports = function (ctx) {
     devServer: {
       // https: true,
       // port: 8080,
-      open: true, // opens browser window automatically
+      open: false, // opens browser window automatically
     },
     // framework: 'all',
     framework: {
