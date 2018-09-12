@@ -1,0 +1,37 @@
+{
+  "name": "quasar-truffle-box",
+  "version": "1.0.0",
+  "description": "Truffle Box for Solidity Smart Contract development built using Quasar-Framework and running on Ethereum",
+  "productName": "Quasar Truffle Box",
+  "cordovaId": "org.cordova.quasar.app",
+  "author": "Ryan Hendricks <ryanhendricks@gmail.com>",
+  "scripts": {
+    "lint": "eslint --ext .js,.vue src",
+    "test": "echo \"No test specified\" && exit 0"
+  },
+  "dependencies": {
+    "web3": "^1.0.0-beta.35"
+  },
+  "devDependencies": {
+    "babel-eslint": "^8.2.1",
+    "eslint": "^4.18.2",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-friendly-formatter": "^4.0.1",
+    "eslint-loader": "^2.0.0",
+    "eslint-plugin-import": "^2.9.0",
+    "eslint-plugin-vue": "^4.3.0",
+    "quasar-cli": "^0.17.0",
+    "strip-ansi": "=3.0.1",
+    "truffle": "^4.1.14"
+  },
+  "engines": {
+    "node": ">= 8.9.0",
+    "npm": ">= 5.6.0",
+    "yarn": ">= 1.6.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 10"
+  ]
+}
