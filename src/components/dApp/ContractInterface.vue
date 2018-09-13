@@ -1,10 +1,26 @@
 <template>
   <div>
     <q-card
-      v-for="method in this.$store.state.contract.abi"
+      v-for="method in functions"
       v-if="method.type === 'function'"
       :key="method.name"
       class="q-pa-md; q-ma-md">
+
+      <q-card-title>
+        <div v-if="method.outputs">
+          <div
+            v-for="(output, index) in method.outputs"
+            :key="output[index]"
+          >
+            <div v-if="output.value">
+              {{ output.value }}
+            </div>
+          </div>
+
+
+        </div>
+
+      </q-card-title>
 
       <q-field
         v-if="method.stateMutability === 'nonpayable' && method.constant === false"
@@ -15,16 +31,15 @@
           v-if="method.inputs">
           <q-input
             v-for="(input, index) in method.inputs"
-            v-if="input"
             :key="input[index]"
-            v-model="callableMethod.methodArgs[index]"
+            v-model="method.inputs[index].value"
             :float-label="input.type + ' ' + input.name"
             class="q-ma-md"/>
         </div>
         <q-btn
           :v-model="method.name"
           color="primary"
-          @click="callNonPayableMethod(method.name)"
+          @click="callNonPayableMethod(method.name, method.inputs)"
         >Call
         </q-btn>
       </q-field>
@@ -40,14 +55,14 @@
             v-for="(input, index) in method.inputs"
             v-if="input"
             :key="input[index]"
-            v-model="callableMethod.methodArgs[index]"
+            v-model="method.inputs[index].value"
             :float-label="input.type + ' ' + input.name"
             class="q-ma-md"/>
         </div>
         <q-btn
           :v-model="method.name"
           color="primary"
-          @click="callContract(method.name)"
+          @click="callContract(method.name, method.inputs)"
         >Call
         </q-btn>
       </q-field>
@@ -67,7 +82,7 @@ export default {
   data() {
     return {
       data: [],
-      functions: [],
+      functions: this.$store.state.contract.functions,
       error: '',
       callableMethod: {
         name: '',
@@ -79,38 +94,34 @@ export default {
   },
   methods: {
     // eslint-disable-next-line
-    callContract(method) {
+    callContract(method, inputs) {
       try {
-        if (!this.callableMethod.methodArgs.length) {
-          const payload = {
-            name: method,
-          };
-          this.$store.dispatch('contract/callContract', payload);
-        } else if (this.callableMethod.methodArgs.length) {
-          const payload = {
-            name: method,
-            args: [this.callableMethod.methodArgs],
-          };
-          this.$store.dispatch('contract/callContractWithArgs', payload);
-        }
+        const args = [];
+        inputs.forEach((input) => {
+          args.push(input.value);
+        });
+        const payload = {
+          name: method,
+          args,
+        };
+        console.log(method);
+        this.$store.dispatch('contract/callContractWithArgs', payload);
       } catch (e) {
         Notify.create({ type: 'negative', message: e.toString() });
       }
     },
-    callNonPayableMethod(method) {
+    callNonPayableMethod(method, inputs) {
       try {
-        if (!this.callableMethod.methodArgs.length) {
-          const payload = {
-            name: method,
-          };
-          this.$store.dispatch('contract/callNonPayableMethod', payload);
-        } else if (this.callableMethod.methodArgs.length) {
-          const payload = {
-            name: method,
-            args: [this.callableMethod.methodArgs],
-          };
-          this.$store.dispatch('contract/callNonPayableMethod', payload);
-        }
+        const callArgs = [];
+        inputs.forEach((input) => {
+          callArgs.push(input.value);
+        });
+        const payload = {
+          name: method,
+          args: callArgs,
+        };
+        console.log(payload);
+        this.$store.dispatch('contract/callNonPayableMethod', payload);
       } catch (e) {
         Notify.create({ type: 'negative', message: e.toString() });
       }

@@ -40,7 +40,7 @@ export default {
     await this.$store.dispatch('ethengine/initWeb3');
   },
   mounted() {
-    this.$store.dispatch('contract/deployContract');
+    // this.$store.dispatch('contract/deployContract');
   },
 };
 </script>

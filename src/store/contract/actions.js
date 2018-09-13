@@ -1,4 +1,4 @@
-import TestToken from '../../.././build/contracts/TestTokenERC20.json';
+import TestToken from '../../.././build/contracts/OathMusic.json';
 import { Notify } from 'quasar';
 
 export const createContractInstance = async ({ commit }) => {
@@ -6,9 +6,43 @@ export const createContractInstance = async ({ commit }) => {
     commit('SET_CONTRACT_BIN', TestToken.bytecode);
     commit('SET_CONTRACT_ABI', TestToken.abi);
   } catch (e) {
-    Notify.create({ type: 'negative', message: e });
+    Notify.create({ type: 'negative', message: e.toString() });
   }
 };
+
+// export const enrich = async ({ state }, parseResults) => {
+//   const contractInstance = await new global.web3.eth.Contract(state.abi, state.address);
+//   const abi = contractInstance.jsonInterface;
+
+//   function addMethod({ name, maxGas }) {
+//     contractInstance[name] = function () {
+//       const methodCallInstance = contractInstance.methods[name](...arguments);
+//       return {
+//         async send(sendArgs) {
+//           const result = await methodCallInstance.send({ ...sendArgs });
+//           // enrichTransactionReceipt(contractInstance, result);
+//           return result;
+//         },
+//         async call(sendArgs) {
+//           const rawResult = await methodCallInstance.call({ ...sendArgs, gas: maxGas });
+//           return parseResults({ name, rawResult });
+//         },
+//         encodeABI() {
+//           return methodCallInstance.encodeABI();
+//         },
+//       };
+//     };
+//   }
+
+//   for (let i = 0; i < abi.length; i += 1) {
+//     const item = abi[i];
+//     if (item.type !== 'function') continue;
+//     addMethod({ name: item.name, maxGas: defaultMaxGas });
+//   }
+
+//   return contractInstance;
+// };
+
 
 export const callContract = async ({ state, rootState }, payload) => {
   try {
@@ -17,21 +51,26 @@ export const callContract = async ({ state, rootState }, payload) => {
     const result = await call.call({ from: rootState.ethengine.account });
     Notify.create({ type: 'positive', message: result.toString() });
   } catch (e) {
-    Notify.create({ type: 'negative', message: e });
+    Notify.create({ type: 'negative', message: e.toString() });
   }
 };
 
-export const callContractWithArgs = async ({ state, rootState }, payload) => {
+export const callContractWithArgs = async ({ state, rootState, commit }, payload) => {
   try {
     const MyContract = await new global.web3.eth.Contract(state.abi, state.address);
     await MyContract.methods[payload.name]
-      .apply(MyContract.methods[payload.name], ...payload.args)
+      .apply(MyContract.methods[payload.name], payload.args)
       .call({ from: rootState.ethengine.account })
       .then((res) => {
         Notify.create({ type: 'positive', message: res.toString() });
+        const methodUpdate = {
+          name: payload.name,
+          value: res,
+        };
+        commit('SET_CONTRACT_CALL_VALUE', methodUpdate);
       });
   } catch (e) {
-    Notify.create({ type: 'negative', message: e });
+    Notify.create({ type: 'negative', message: e.toString() });
   }
 };
 
@@ -39,14 +78,12 @@ export const callNonPayableMethod = async ({ state, rootState, commit }, payload
   try {
     const MyContract = await new global.web3.eth.Contract(state.abi, state.address);
     await MyContract.methods[payload.name]
-      .apply(MyContract.methods[payload.name], ...payload.args)
+      .apply(MyContract.methods[payload.name], payload.args)
       .send({ from: rootState.ethengine.account })
       .on('receipt', (receipt) => {
         Notify.create({ type: 'positive', message: `Cumulative Gas Used: ${receipt.cumulativeGasUsed}` });
         commit('LOG_TXN_RECEIPT', receipt);
-      })
-      .then((res) => {
-        Notify.create({ type: 'positive', message: res.toString() });
+        Notify.create({ type: 'positive', message: receipt });
       });
   } catch (e) {
     Notify.create({ type: 'negative', message: e.toString() });
@@ -60,8 +97,8 @@ export const deployContract = async ({
   // await dispatch('createContractInstance');
   await commit('SET_CONTRACT_BIN', TestToken.bytecode);
   await commit('SET_CONTRACT_ABI', TestToken.abi);
-  // const fromAddress = rootState.ethengine.account;
 
+  // const fromAddress = rootState.ethengine.account;
   const ContractInstance = await new global.web3.eth.Contract(state.abi);
   ContractInstance.options.data = state.bin;
   try {
@@ -73,6 +110,7 @@ export const deployContract = async ({
       .on('transactionHash', (hash) => {
         Notify.create({ type: 'positive', message: `Transaction Hash: ${hash}` });
         commit('SET_TXN_HASH', hash);
+        commit('SET_CONTRACT_METHODS');
       })
       .on('receipt', (receipt) => {
         Notify.create({ type: 'positive', message: `Contract Deployed at ${receipt.contractAddress}` });
@@ -81,7 +119,7 @@ export const deployContract = async ({
         commit('LOG_TXN_RECEIPT', receipt);
       })
       .then(() => {
-        dispatch('readContractConstants');
+        // dispatch('readContractConstants');
       });
   } catch (e) {
     Notify.create({ type: 'negative', message: e });

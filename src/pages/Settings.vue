@@ -2,8 +2,7 @@
   <q-page
     padding
     class="row justify-center">
-    <!-- <div style="width: 600px; max-width: 90vw;"> -->
-    <div>
+    <div style="width: 600px; max-width: 90vw;">
       <LayoutSettings />
     </div>
   </q-page>
