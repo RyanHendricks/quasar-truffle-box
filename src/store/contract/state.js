@@ -3,7 +3,7 @@ export default {
   bin: '',
   hashes: [],
   address: '',
-  functions: {},
+  functions: [],
   constants: {},
   txnReceipts: [],
 };
