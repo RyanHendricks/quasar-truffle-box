@@ -92,7 +92,15 @@ export default {
       methodArgs: [],
     };
   },
+  computed: {
+    events: () => this.$store.getters.events,
+    methods: () => this.$store.getters.functions,
+    contractState: () => this.$store.state.function,
+  },
   methods: {
+    methodInputs(user) { // this could also be done for the whole user collection in the getter we created above.
+      return user.topics.map(topicId => this.topics[topicId]);
+    },
     // eslint-disable-next-line
     callContract(method, inputs) {
       try {

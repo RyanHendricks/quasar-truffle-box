@@ -5,6 +5,7 @@ export const createContractInstance = async ({ commit }) => {
   try {
     commit('SET_CONTRACT_BIN', TestToken.bytecode);
     commit('SET_CONTRACT_ABI', TestToken.abi);
+    commit('SET_CONTRACT_METHODS');
   } catch (e) {
     Notify.create({ type: 'negative', message: e.toString() });
   }
@@ -66,6 +67,7 @@ export const callContractWithArgs = async ({ state, rootState, commit }, payload
         const methodUpdate = {
           name: payload.name,
           value: res,
+          key: payload.key,
         };
         commit('SET_CONTRACT_CALL_VALUE', methodUpdate);
       });

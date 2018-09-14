@@ -14,6 +14,7 @@ Vue.use(Vuex);
 
 export default function (/* { ssrContext } */) {
   const Store = new Vuex.Store({
+    strict: true,
     modules: {
       ethengine,
       settings,
