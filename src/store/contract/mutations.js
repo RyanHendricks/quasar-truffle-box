@@ -21,7 +21,9 @@ export const SET_CONTRACT_METHOD_VALUE = (state, payload) => {
   Object.assign(state.functions, { [payload.name]: payload });
 };
 export const SET_CONTRACT_CALL_VALUE = (state, payload) => {
-  const tempMethod = Object.assign({}, state.functions[payload.name]);
+  console.log(payload);
+  state.callLog.push(payload);
+  const tempMethod = Object.assign({}, state.functions, { [payload.name]: payload });
   // state.functions = Object.assign({}, tempState, payload);
   // state.constants[payload.name] = payload.value;
   Object.assign({}, tempMethod, payload.value);

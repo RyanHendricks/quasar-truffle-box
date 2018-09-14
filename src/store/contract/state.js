@@ -6,4 +6,5 @@ export default {
   functions: [],
   constants: {},
   txnReceipts: [],
+  callLog: [],
 };
