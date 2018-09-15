@@ -45,32 +45,49 @@ export const createContractInstance = async ({ commit }) => {
 // };
 
 
-export const callContract = async ({ state, rootState }, payload) => {
-  try {
-    const MyContract = await new global.web3.eth.Contract(state.abi, state.address);
-    const call = MyContract.methods[payload.name].apply(MyContract.methods);
-    const result = await call.call({ from: rootState.ethengine.account });
-    Notify.create({ type: 'positive', message: result.toString() });
-  } catch (e) {
-    Notify.create({ type: 'negative', message: e.toString() });
-  }
-};
+// export const callContract = async ({ state, rootState }, payload) => {
+//   try {
+//     const MyContract = await new global.web3.eth.Contract(state.abi, state.address);
+//     const call = MyContract.methods[payload.name].apply(MyContract.methods);
+//     const result = await call.call({ from: rootState.ethengine.account });
+//     Notify.create({ type: 'positive', message: result.toString() });
+//   } catch (e) {
+//     Notify.create({ type: 'negative', message: e.toString() });
+//   }
+// };
 
 export const callContractWithArgs = async ({ state, rootState, commit }, payload) => {
   try {
     const MyContract = await new global.web3.eth.Contract(state.abi, state.address);
-    await MyContract.methods[payload.name]
-      .apply(MyContract.methods[payload.name], payload.args)
-      .call({ from: rootState.ethengine.account })
-      .then((res) => {
-        Notify.create({ type: 'positive', message: res.toString() });
-        const methodUpdate = {
-          name: payload.name,
-          value: res,
-          key: payload.key,
-        };
-        commit('SET_CONTRACT_CALL_VALUE', methodUpdate);
-      });
+
+    console.log(payload.stateMutability);
+    if (payload.format === true) {
+      await MyContract.methods[payload.name]
+        .apply(MyContract.methods[payload.name], payload.args)
+        .call({ from: rootState.ethengine.account })
+        .then((res) => {
+          Notify.create({ type: 'positive', message: res.toString() });
+          const methodUpdate = {
+            name: payload.name,
+            value: res,
+            key: payload.key,
+          };
+          commit('SET_CONTRACT_CALL_VALUE', methodUpdate);
+        });
+    } else if (payload.format === false) {
+      await MyContract.methods[payload.name]
+        .apply(MyContract.methods[payload.name], payload.args)
+        .send({ from: rootState.ethengine.account })
+        .then((res) => {
+          Notify.create({ type: 'positive', message: res.toString() });
+          const methodUpdate = {
+            name: payload.name,
+            value: res,
+            key: payload.key,
+          };
+          commit('SET_CONTRACT_CALL_VALUE', methodUpdate);
+        });
+    }
   } catch (e) {
     Notify.create({ type: 'negative', message: e.toString() });
   }

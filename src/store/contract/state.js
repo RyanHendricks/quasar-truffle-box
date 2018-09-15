@@ -1,8 +1,8 @@
 export default {
-  abi: '',
+  abi: [],
   bin: '',
   hashes: [],
-  address: '0x44Bf761ffC0462667df80BB635a91f433E137d61',
+  address: '0xEE1443F2757C836561aB18Aa31C859104d2Dd6aD',
   functions: {},
   constants: {},
   txnReceipts: [],

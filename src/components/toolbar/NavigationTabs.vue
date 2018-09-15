@@ -16,7 +16,7 @@
       />
       <q-route-tab
         slot="title"
-        icon="spa"
+        icon="ballot"
         to="/Contracts"
         replace
         exact
@@ -24,11 +24,11 @@
       />
       <q-route-tab
         slot="title"
-        icon="settings"
-        to="/Settings"
+        icon="receipt"
+        to="/History"
         replace
         exact
-        label="Settings"
+        label="History"
       />
     </q-tabs>
 
@@ -53,10 +53,10 @@
       />
       <q-route-tab
         slot="title"
-        to="/Settings"
+        to="/History"
         replace
         exact
-        label="Settings"
+        label="History"
       />
     </q-tabs>
   </div>
@@ -66,7 +66,7 @@
 import { mapState } from 'vuex';
 
 export default {
-  name: 'RouteTabs',
+  name: 'NavigationTabs',
   data() {
     return {};
   },

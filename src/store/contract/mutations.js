@@ -9,7 +9,7 @@ export const SET_CONTRACT_BIN = (state, val) => {
   state.bin = val;
 };
 export const SET_CONTRACT_METHODS = (state) => {
-  state.functions = state.abi.filter(e => e.type === 'function');
+  state.functions = Object.assign({}, state.abi.filter(e => e.type === 'function'));
 };
 export const SET_TXN_HASH = (state, val) => {
   state.hashes.push(val);

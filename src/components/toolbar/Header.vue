@@ -24,20 +24,20 @@
       <UserDropdown/>
 
     </q-toolbar>
-    <RouteTabs/>
+    <NavigationTabs />
   </q-layout-header>
 </template>
 
 <script>
 import UserDropdown from './UserDropdown';
-import RouteTabs from '.././toolbar/RouteTabs';
+import NavigationTabs from '.././toolbar/NavigationTabs';
 import { mapState } from 'vuex';
 
 export default {
   name: 'Header',
   components: {
     UserDropdown,
-    RouteTabs,
+    NavigationTabs,
   },
   data() {
     return {
