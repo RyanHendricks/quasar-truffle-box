@@ -60,7 +60,6 @@ export const callContractWithArgs = async ({ state, rootState, commit }, payload
   try {
     const MyContract = await new global.web3.eth.Contract(state.abi, state.address);
 
-    console.log(payload.stateMutability);
     if (payload.format === true) {
       await MyContract.methods[payload.name]
         .apply(MyContract.methods[payload.name], payload.args)
@@ -111,7 +110,7 @@ export const callNonPayableMethod = async ({ state, rootState, commit }, payload
 
 
 export const deployContract = async ({
-  rootState, state, commit, dispatch,
+  rootState, state, commit,
 }) => {
   // await dispatch('createContractInstance');
   await commit('SET_CONTRACT_BIN', TestToken.bytecode);
@@ -171,11 +170,9 @@ export const readContractConstants = async ({
             if (method.outputs.length === 1) {
               // Object.assign(tempMethod.outputs[0], { value: res });
               tempMethod.outputs[0].value = res;
-              console.log(tempMethod.value);
             } else if (method.outputs.length > 1) {
               for (let i = 0; i < method.outputs.length; i += 1) {
                 tempMethod[i].value = res;
-                console.log(tempMethod[i].value);
               }
             }
 
