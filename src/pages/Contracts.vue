@@ -12,9 +12,7 @@
       style="width: 500px; max-width: 90vw;">
       <ContractLoader />
     </div>
-    <div
-      class="col; q-ma-md"
-      style="width: 500px; max-width: 90vw;">
+    <div>
       <ContractInterface />
     </div>
   </q-page>

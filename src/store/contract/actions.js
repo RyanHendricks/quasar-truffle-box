@@ -1,4 +1,4 @@
-import TestToken from '../../.././build/contracts/OathMusic.json';
+import TestToken from '../../.././build/contracts/TestTokenERC20.json';
 import { Notify } from 'quasar';
 
 export const createContractInstance = async ({ commit }) => {

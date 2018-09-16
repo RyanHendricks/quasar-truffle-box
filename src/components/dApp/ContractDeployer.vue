@@ -1,48 +1,53 @@
 <template>
   <div>
-
-
     <div
       color="white"
       class="shadow-8">
       <q-card>
         <q-card-title >
           <q-btn
+            flat
             icon="settings"
             class="no-shadow"/>
           {{ title }}
         </q-card-title>
-        <q-card-main>
-          <div
-            v-if="unlocked === true">
-
+        <div v-if="unlocked === true">
+          <q-card-main class="q-pa-lg">
             <q-field
+              :helper="account"
+              class="q-pa-xs"/>
+          </q-card-main>
+          <q-card-separator/>
+          <q-card-actions vertical>
+            <q-btn
+              :disable="!unlocked"
+              :label="buttonLabel"
+              class="q-ma-md"
+              color="primary"
+              inverted
+              @click="deployContract()" />
+          </q-card-actions>
+        </div>
+        <div v-if="unlocked === false">
+          <q-card-main class="q-pa-lg">
+            <q-field
+              label="please unlock Metamask"
+              class="q-pa-xs" />
+          </q-card-main>
+          <q-card-separator/>
+          <q-card-actions vertical>
+            <q-btn
+              :disable="!unlocked"
+              class="q-ma-md"
+              label="Create Contract"
+              color="primary"
+              inverted />
+          </q-card-actions>
+        </div>
 
-              :helper="
-              account"
-              class="q-pa-xs">
-              <q-btn
-                :disable="!unlocked"
-                label="Create Contract"
-                color="secondary"
-                class="inverted"
-                @click="deployContract()" />
-            </q-field>
-    </div></q-card-main></q-card></q-btn></q-card-title></div>
 
-    <div v-if="unlocked === false">
-      <q-field
-        helper="please unlock Metamask"
-        class="q-pa-xs">
-        <q-btn
-          :disable="!unlocked"
-          label="Create Contract"
-          color="secondary"
-          class="inverted" />
-      </q-field>
+      </q-card>
     </div>
-      </q-card-main></q-card>
-  </div>
 </div></template>
 
 <script>
@@ -53,6 +58,11 @@ export default {
   data() {
     return {
       title: 'Deploy New Contract',
+      labelText: 'Enter the address of the deployed contract',
+      helperText: 'make sure you are on the right network',
+      buttonLabel: 'Create Contract',
+      floatLabel: 'Contract Address',
+
     };
   },
   computed: {

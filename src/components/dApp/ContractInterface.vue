@@ -1,13 +1,14 @@
 <template>
-  <div>
+  <div class="row justify-center">
     <q-card
       v-for="(method, index) in functions"
       :key="method[index]"
-
-      class="q-pa-md"
+      style="width: 375px; max-width: 90vw;"
+      class="q-ma-md shadow-4"
       icon="wifi">
 
-      <q-card-title>{{ method.name }}
+      <q-card-title>
+        {{ method.name }}
         <!-- <div v-if="method.outputs"> -->
         <div
           v-for="(output, index) in method.outputs"
@@ -21,6 +22,7 @@
 
       </q-card-title>
       <q-card-main class="q-ma-md">
+
         <q-field
           v-for="(input, key) in method.inputs"
           :key="input[key]"
@@ -32,13 +34,18 @@
             class="q-ma-md"/>
 
         </q-field>
+      </q-card-main>
+      <q-card-separator/>
+
+      <q-card-actions vertical>
         <q-btn
           :v-model="method.name"
+          class="q-ma-md"
           color="primary"
           @click="callNonPayableMethod(method)">
           Call
         </q-btn>
-      </q-card-main>
+      </q-card-actions>
     </q-card>
   </div>
 </template>

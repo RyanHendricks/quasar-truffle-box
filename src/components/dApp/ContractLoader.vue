@@ -1,7 +1,5 @@
 <template>
   <div>
-
-
     <div
       color="white"
       class="shadow-8">
@@ -12,9 +10,7 @@
             class="no-shadow"/>
           {{ title }}
         </q-card-title>
-        <q-card-main
-          class="q-pa-lg"
-        >
+        <q-card-main class="q-pa-lg">
           <q-field
             :label="labelText"
             :helper="helperText">
