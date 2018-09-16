@@ -2,11 +2,12 @@
   <q-layout-header
     v-model="header"
     :reveal="headerReveal"
-    class="shadow-1">
+    class="shadow-1"
+  >
 
     <q-toolbar
-      color="primary"
       inverted
+
       flat>
       <q-btn
         flat
@@ -59,4 +60,6 @@ export default {
 </script>
 
 <style>
+
+
 </style>

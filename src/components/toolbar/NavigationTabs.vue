@@ -3,11 +3,13 @@
     <q-tabs
       v-if="tabIcons == true"
       align="justify"
-      class="no-shadow"
-      inverted>
+
+
+    >
       <q-route-tab
         slot="title"
         icon="all inclusive"
+
         to="/"
         replace
         default
