@@ -1,1 +1,3 @@
-quasar-truffle-box
+# Quasar App
+
+> WIP
