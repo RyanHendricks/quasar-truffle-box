@@ -1,13 +1,12 @@
 <template>
   <div>
+
     <h6>Create a new Contract</h6>
 
-    <!-- Deploy Contract Button -->
     <div v-if="unlocked === true">
       <q-field
         :helper="account"
-        class="q-pa-xs"
-      >
+        class="q-pa-xs">
         <q-btn
           :disable="!unlocked"
           label="Create Contract"
@@ -16,11 +15,11 @@
           @click="deployContract()" />
       </q-field>
     </div>
+
     <div v-if="unlocked === false">
       <q-field
         helper="please unlock Metamask"
-        class="q-pa-xs"
-      >
+        class="q-pa-xs">
         <q-btn
           :disable="!unlocked"
           label="Create Contract"
@@ -28,6 +27,7 @@
           class="inverted" />
       </q-field>
     </div>
+
   </div>
 </template>
 

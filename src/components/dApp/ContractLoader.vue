@@ -1,8 +1,9 @@
 <template>
   <div>
+
     <h6>Load a deployed contract</h6>
+
     <div>
-      <!-- Input for Deployed Contract Address -->
       <q-field
         class="q-pa-md"
         icon="track_changes"
@@ -16,16 +17,8 @@
           inverted
           @click="loadContract()" />
       </q-field>
-      <!-- <q-field
-        class="q-pa-md"
-        icon="track_changes"
-        helper="Enter (paste) the contract ABI">
-        <q-input
-          v-model="abi"
-          float-label="Contract Address" />
-      </q-field> -->
-
     </div>
+
   </div>
 </template>
 
@@ -46,14 +39,12 @@ export default {
         if (this.address.length !== 42 && this.address.substr(0, 2) !== '0x') {
           throw new Error('invalid entry');
         }
-        // dispatch contract object to vuex
         this.$store.commit('contract/SET_CONTRACT_ADDRESS', this.address);
+
+        // dispatch contract object to vuex
         this.$store.dispatch('contract/createContractInstance');
       } catch (e) {
-        // catch errors from object creation and dispatch
-        // this will not catch errors from contract instance creation
-        // eslint-disable-next-line
-          throw new Error(e);
+        throw new Error(e);
       }
     },
   },
