@@ -12,11 +12,6 @@
           {{ title }}
         </q-card-title>
         <div v-if="unlocked === true">
-          <q-card-main class="q-pa-lg">
-            <q-field
-              :helper="account"
-              class="q-pa-xs"/>
-          </q-card-main>
           <q-card-separator/>
           <q-card-actions vertical>
             <q-btn

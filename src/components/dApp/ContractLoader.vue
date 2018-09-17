@@ -10,11 +10,12 @@
             class="no-shadow"/>
           {{ title }}
         </q-card-title>
+        <q-card-separator/>
+
         <q-card-main class="q-pa-lg">
           <q-field
             :label="labelText"
             :helper="helperText">
-            <q-card-separator/>
 
             <q-input
 
@@ -44,8 +45,7 @@ export default {
   data() {
     return {
       title: 'Load a deployed contract',
-      labelText: 'Enter the address of the deployed contract',
-      helperText: 'make sure you are on the right network',
+      helperText: 'Enter the address of the deployed contract',
       buttonLabel: 'Load Contract',
       floatLabel: 'Contract Address',
 
