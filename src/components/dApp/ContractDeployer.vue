@@ -1,54 +1,54 @@
 <template>
-  <div>
-    <div
-      color="white"
-      class="shadow-8">
-      <q-card>
-        <q-card-title >
+  <div
+    class="shadow-8">
+    <q-card>
+      <q-card-title>
+        <q-icon
+          class="q-px-md"
+          name="arrow_upward" />
+        {{ title }}
+      </q-card-title>
+
+      <div v-if="unlocked === true">
+        <q-card-main class="q-pa-md">
+          <q-field>
+            Network = <b>{{ network }}</b>
+          </q-field>
+        </q-card-main>
+        <q-card-separator/>
+        <q-card-actions vertical>
           <q-btn
-            flat
-            icon="settings"
-            class="no-shadow"/>
-          {{ title }}
-        </q-card-title>
-        <div v-if="unlocked === true">
-          <q-card-main class="q-pa-lg">
-            <q-field
-              :helper="account"
-              class="q-pa-xs"/>
-          </q-card-main>
-          <q-card-separator/>
-          <q-card-actions vertical>
-            <q-btn
-              :disable="!unlocked"
-              :label="buttonLabel"
-              class="q-ma-md"
-              color="primary"
-              inverted
-              @click="deployContract()" />
-          </q-card-actions>
-        </div>
-        <div v-if="unlocked === false">
-          <q-card-main class="q-pa-lg">
-            <q-field
-              label="please unlock Metamask"
-              class="q-pa-xs" />
-          </q-card-main>
-          <q-card-separator/>
-          <q-card-actions vertical>
-            <q-btn
-              :disable="!unlocked"
-              class="q-ma-md"
-              label="Create Contract"
-              color="primary"
-              inverted />
-          </q-card-actions>
-        </div>
+            :disable="!unlocked"
+            :label="buttonLabel"
+            class="q-ma-sm"
+            color="primary"
+            inverted
+            @click="deployContract()" />
+        </q-card-actions>
+      </div>
+
+      <div v-if="unlocked === false">
+        <q-card-main class="q-pa-md">
+          <q-field
+            label="please unlock Metamask"
+            class="q-pa-sm" />
+        </q-card-main>
+        <q-card-separator/>
+        <q-card-actions vertical>
+          <q-btn
+            :disable="!unlocked"
+            class="q-ma-sm"
+            label="Create Contract"
+            color="primary"
+            inverted />
+        </q-card-actions>
+      </div>
 
 
-      </q-card>
-    </div>
-</div></template>
+    </q-card>
+  </div>
+</template>
+
 
 <script>
 import { mapState } from 'vuex';
@@ -66,7 +66,7 @@ export default {
     };
   },
   computed: {
-    ...mapState('ethengine', ['unlocked', 'account']),
+    ...mapState('ethengine', ['unlocked', 'account', 'network']),
   },
   methods: {
     deployContract() {

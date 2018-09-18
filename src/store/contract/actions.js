@@ -11,56 +11,11 @@ export const createContractInstance = async ({ commit }) => {
   }
 };
 
-// export const enrich = async ({ state }, parseResults) => {
-//   const contractInstance = await new global.web3.eth.Contract(state.abi, state.address);
-//   const abi = contractInstance.jsonInterface;
-
-//   function addMethod({ name, maxGas }) {
-//     contractInstance[name] = function () {
-//       const methodCallInstance = contractInstance.methods[name](...arguments);
-//       return {
-//         async send(sendArgs) {
-//           const result = await methodCallInstance.send({ ...sendArgs });
-//           // enrichTransactionReceipt(contractInstance, result);
-//           return result;
-//         },
-//         async call(sendArgs) {
-//           const rawResult = await methodCallInstance.call({ ...sendArgs, gas: maxGas });
-//           return parseResults({ name, rawResult });
-//         },
-//         encodeABI() {
-//           return methodCallInstance.encodeABI();
-//         },
-//       };
-//     };
-//   }
-
-//   for (let i = 0; i < abi.length; i += 1) {
-//     const item = abi[i];
-//     if (item.type !== 'function') continue;
-//     addMethod({ name: item.name, maxGas: defaultMaxGas });
-//   }
-
-//   return contractInstance;
-// };
-
-
-// export const callContract = async ({ state, rootState }, payload) => {
-//   try {
-//     const MyContract = await new global.web3.eth.Contract(state.abi, state.address);
-//     const call = MyContract.methods[payload.name].apply(MyContract.methods);
-//     const result = await call.call({ from: rootState.ethengine.account });
-//     Notify.create({ type: 'positive', message: result.toString() });
-//   } catch (e) {
-//     Notify.create({ type: 'negative', message: e.toString() });
-//   }
-// };
-
 export const callContractWithArgs = async ({ state, rootState, commit }, payload) => {
   try {
     const MyContract = await new global.web3.eth.Contract(state.abi, state.address);
 
-    if (payload.format === true) {
+    if (payload.constant === true) {
       await MyContract.methods[payload.name]
         .apply(MyContract.methods[payload.name], payload.args)
         .call({ from: rootState.ethengine.account })
@@ -73,18 +28,22 @@ export const callContractWithArgs = async ({ state, rootState, commit }, payload
           };
           commit('SET_CONTRACT_CALL_VALUE', methodUpdate);
         });
-    } else if (payload.format === false) {
+    } else if (payload.constant === false) {
       await MyContract.methods[payload.name]
         .apply(MyContract.methods[payload.name], payload.args)
         .send({ from: rootState.ethengine.account })
+        .on('receipt', (receipt) => {
+          Notify.create({ type: 'positive', message: `Cumulative Gas Used: ${receipt.cumulativeGasUsed}` });
+          commit('LOG_TXN_RECEIPT', receipt);
+        })
         .then((res) => {
           Notify.create({ type: 'positive', message: res.toString() });
-          const methodUpdate = {
-            name: payload.name,
-            value: res,
-            key: payload.key,
-          };
-          commit('SET_CONTRACT_CALL_VALUE', methodUpdate);
+          // const methodUpdate = {
+          //   name: payload.name,
+          //   value: res,
+          //   key: payload.key,
+          // };
+          // commit('SET_CONTRACT_CALL_VALUE', methodUpdate);
         });
     }
   } catch (e) {
