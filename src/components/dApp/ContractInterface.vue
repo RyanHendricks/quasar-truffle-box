@@ -3,13 +3,18 @@
     <q-card
       v-for="(method, index) in functions"
       :key="method[index]"
-      style="width: 375px; max-width: 90vw;"
-      class="q-ma-md shadow-4"
-      icon="wifi">
+      style="width: 375px; max-width: 90;"
+      class="q-ma-sm shadow-4"
+    >
 
-      <q-card-title>
-        {{ method.name }}
-        <!-- <div v-if="method.outputs"> -->
+      <q-card-title class="q-mx-md">
+        <div class="uppercase">{{ method.name }}</div>
+        <div slot="subtitle">{{ method.stateMutability }} {{ method.type }}</div>
+        <div
+          slot="right"
+          class="row items-center">
+          <q-icon name="code" /> {{ method.signature }}
+        </div>
         <div
           v-for="(output, index) in method.outputs"
           :key="output[index]"
@@ -17,25 +22,23 @@
           <div v-if="output.value">
             {{ output.value }}
           </div>
-          <!-- </div> -->
         </div>
-
       </q-card-title>
-      <q-card-main class="q-ma-md">
 
+      <q-card-separator/>
+
+      <q-card-main class="q-pa-md">
         <q-field
           v-for="(input, key) in method.inputs"
           :key="input[key]"
-          icon="input">
+          icon="input"
+          class="q-px-sm">
           <q-input
-
             v-model="method.inputs[key].value"
-            :float-label="input.type + ' ' + input.name"
-            class="q-ma-md"/>
-
+            :float-label="input.type + ' ' + input.name"/>
         </q-field>
       </q-card-main>
-      <q-card-separator/>
+
 
       <q-card-actions vertical>
         <q-btn
@@ -92,7 +95,7 @@ export default {
           name: method.name,
           args: callArgs,
           callback: callbacks,
-          format: method.constant,
+          constant: method.constant,
         };
 
         // Dispatch object to the store calling action
