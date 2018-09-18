@@ -18,7 +18,7 @@ export const UPDATE_NETWORK = (state, network) => {
       state.rpcURL = 'https://rinkeby.infura.io';
       break;
     default:
-      state.network = 'local';
+      state.network = 'Local / Ganache';
       state.rpcURL = 'https://127.0.0.1:8545';
       break;
   }
