@@ -37,12 +37,12 @@ export const callContractWithArgs = async ({ state, rootState, commit }, payload
           commit('LOG_TXN_RECEIPT', receipt);
         })
         .then((res) => {
-          // Notify.create({ type: 'positive', message: res.toString() });
-          const methodUpdate = {
-            name: payload.name,
-            value: res,
-            key: payload.key,
-          };
+          Notify.create({ type: 'positive', message: res.toString() });
+          // const methodUpdate = {
+          //   name: payload.name,
+          //   value: res,
+          //   key: payload.key,
+          // };
           // commit('SET_CONTRACT_CALL_VALUE', methodUpdate);
         });
     }
