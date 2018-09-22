@@ -1,8 +1,19 @@
 # Quasar Truffle Box
 
-Truffle Box starter project built using Quasar-Framework
+Ethereum dApp starter project built using Quasar-Framework, Truffle, and Vuex. 
 
 ![](header.png)
+
+## Features
+- 
+- Web3 managed via Vuex store 
+
+This project is meant to showcase some of the methods for abstracting the interaction between the user and EVM through a modular and mobile-friendly UI.
+
+Web3 is managed 
+
+
+
 
 ## Installation
 
