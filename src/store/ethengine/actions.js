@@ -1,8 +1,8 @@
 
 import Web3 from 'web3';
-// import ZeroClientProvider from 'web3-provider-engine/dist/ZeroClientProvider.js';
 import { Notify } from 'quasar';
 
+// Uses injected provider if detected for web3 connection otherwise uses infura
 export const initWeb3 = async ({ state, commit, dispatch }) => {
   try {
     let web3Provider;
@@ -24,16 +24,18 @@ export const initWeb3 = async ({ state, commit, dispatch }) => {
       commit('SET_CONNECTED', false);
     }
   } catch (e) {
-    Notify.create({ type: 'positive', message: `Error: ${e}` });
+    Notify.create({ type: 'warning', message: `Error: ${e}` });
   }
 };
 
+// Loops through web3 status action dispatches
 export const startChecking = async ({ state, dispatch }) => {
   await setInterval(() => {
     dispatch('check');
   }, state.updateInterval);
 };
 
+// Synchronous dispatch called by startChecking every state.updateInterval
 export const check = ({ dispatch }) => {
   dispatch('checkNetwork');
   dispatch('getBlockNumber');
@@ -42,7 +44,9 @@ export const check = ({ dispatch }) => {
   dispatch('checkAccount');
 };
 
-export const checkNetwork = async ({ state, commit, dispatch }) => {
+// Note: the following functions do not alter state if retrieved data = state data
+
+export const checkNetwork = async ({ state, commit }) => {
   try {
     const network = await global.web3.eth.net.getId();
     if (network !== state.netId) {
@@ -50,7 +54,7 @@ export const checkNetwork = async ({ state, commit, dispatch }) => {
       commit('SET_CONNECTED', true);
     }
   } catch (e) {
-    dispatch('createEngineNotify', 'checknetwork error');
+    Notify.create({ type: 'negative', message: e.toString() });
   }
 };
 
@@ -67,7 +71,7 @@ export const checkAccount = async ({ state, commit, dispatch }) => {
       commit('UPDATE_ACCOUNT', 'Please Unlock Metamask');
     }
   } catch (e) {
-    dispatch('createEngineNotify', 'account error');
+    Notify.create({ type: 'negative', message: e.toString() });
   }
 };
 
@@ -83,22 +87,22 @@ export const getBalance = async ({ state, commit }) => {
         });
     }
   } catch (e) {
-    Notify.create({ type: 'negative', message: e });
+    Notify.create({ type: 'negative', message: e.toString() });
   }
 };
 
-export const getBlockNumber = async ({ state, commit, dispatch }) => {
+export const getBlockNumber = async ({ state, commit }) => {
   try {
     const block = await global.web3.eth.getBlockNumber();
     if (state.blockNumber !== block) {
       commit('UPDATE_BLOCK', block);
     }
   } catch (e) {
-    dispatch('createEngineNotify', e);
+    Notify.create({ type: 'negative', message: e.toString() });
   }
 };
 
-export const getGasPrice = async ({ state, commit, dispatch }) => {
+export const getGasPrice = async ({ state, commit }) => {
   try {
     const rawPrice = await global.web3.eth.getGasPrice();
     const gasPrice = global.web3.utils.fromWei(rawPrice, 'ether').toString(10) * 1000000000;
@@ -106,18 +110,18 @@ export const getGasPrice = async ({ state, commit, dispatch }) => {
       commit('UPDATE_GASPRICE', gasPrice);
     }
   } catch (e) {
-    dispatch('createEngineNotify', e);
+    Notify.create({ type: 'negative', message: e.toString() });
   }
 };
 
-export const checkConnection = async ({ state, commit, dispatch }) => {
+export const checkConnection = async ({ state, commit }) => {
   try {
     const connected = await global.web3.eth.net.isListening();
     if (connected === true && state.connected !== true) {
       commit('SET_CONNECTED', true);
     }
   } catch (e) {
-    dispatch('createEngineNotify', e);
+    Notify.create({ type: 'negative', message: e.toString() });
   }
 };
 

@@ -1,6 +1,6 @@
 # Contributing
 
-**The following contributions are always welcomed**
+## The following contributions are always welcome
 
 - Bug Reports
 - Feature Requests
