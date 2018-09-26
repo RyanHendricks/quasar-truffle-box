@@ -1,15 +1,23 @@
 # Quasar Truffle Box
 
+Ethereum dApp starter project 
+
+## Demo
+
+[Coinswaps.xyz](https://coinswaps.xyz/)
+
 ## Built With
-- Quasar Framework
-- 
 
-Ethereum dApp starter project built using Quasar-Framework, Truffle, and Vuex. 
+- [Quasar Framework](https://quasar-framework.org/)
+- [Truffle](https://truffleframework.com/)
+- [Web3](https://github.com/ethereum/web3.js/)
+- [Vuex](https://vuex.vuejs.org/)
 
-![](header.png)
+
+![screenshot1](/src/statics/screenshots/screenshot1.png)
 
 ## Features
-- 
+- Code linting with [Solium](https://github.com/duaraghav8/Solium) & [Eslint](https://eslint.org/)
 - Web3 managed via Vuex store 
 
 This project is meant to showcase some of the methods for abstracting the interaction between the user and EVM through a modular and mobile-friendly UI.
