@@ -18,8 +18,8 @@ module.exports = function (ctx) {
     supportIE: false,
     build: {
       scopeHoisting: true,
-      // vueRouterMode: 'history',
-      // vueCompiler: true,
+      vueRouterMode: 'history',
+      vueCompiler: true,
       gzip: true,
       // analyze: true,
       extractCSS: true,
@@ -91,9 +91,9 @@ module.exports = function (ctx) {
       // workboxPluginMode: 'InjectManifest',
       // workboxOptions: {},
       manifest: {
-        // name: 'Quasar App',
-        // short_name: 'Quasar-PWA',
-        // description: 'Best PWA App in town!',
+        name: 'Quasar Truffle Box',
+        short_name: 'quasar-truffle-box',
+        description: 'Ethereum dApp starter project built using Quasar-Framework, Truffle, and Vuex.',
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',
