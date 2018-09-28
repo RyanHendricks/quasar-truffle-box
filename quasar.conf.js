@@ -17,8 +17,8 @@ module.exports = function (ctx) {
     ],
     supportIE: false,
     build: {
-      scopeHoisting: true,
-      vueRouterMode: 'history',
+      // scopeHoisting: true,
+      // vueRouterMode: 'history',
       vueCompiler: true,
       gzip: true,
       // analyze: true,
